@@ -1,5 +1,8 @@
 from pathlib import Path
+import pdfplumber
 
+
+# cli.py :
 def accept_folder_name():
 
     user_input = input("Enter a folder path: ")
@@ -14,6 +17,7 @@ def find_all_pdf_files(folder_path):
     return pdf_files
 
 def main():
+
     folder_path = accept_folder_name()
 
     if folder_path.exists() and folder_path.is_dir():
@@ -28,6 +32,12 @@ def main():
     else:
         print(f"Error: {folder_path} is not a valid folder.")
 
+# reader.py :
+
+
+
+
+
 if __name__ == "__main__":
     main()
 
@@ -38,15 +48,19 @@ if __name__ == "__main__":
 
 
 '''
-Find all PDF files in a folder : 
+Read text from one PDF
 
-Accept a folder path from the user.
 
-Find all PDF files inside it.
 
-If there are no PDFs, display a message.
+Open a PDF.
 
-Keep it simple: use a folder path you specify in your project initially. Command-line arguments can come later.
+Extract its text.
+
+Check whether any text was extracted.
+
+
+
+New concept: pdfplumber. Test this with just one invoice before processing multiple files.
 
 1.First functions then Exceptional handling for the above code 
 
