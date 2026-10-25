@@ -1,6 +1,7 @@
 from pathlib import Path
 import pdfplumber
 import re
+from datetime import datetime
 
 
 # cli.py :
@@ -33,6 +34,36 @@ def customer_name_parser(extracted_text):
 
     return matches
 
+def invoice_date_parser(extracted_text):
+    pattern = r"\d{4}-\d{2}-\d{2}"
+
+    date_list = re.findall(pattern,extracted_text)
+    for date in date_list:
+        if _valid_date_string(date):
+            return date
+        else:
+            return "Date is not a real calendar date"
+
+
+
+def _valid_date_string(date):
+    date_format = "%Y-%m-%d"
+    try:
+        datetime.strptime(date,date_format)
+        return True
+    except ValueError:
+        return False
+
+def invoice_total_parser(extracted_text):
+    pattern = r"Total:\s*\$(\d+)\.(\d+)"
+
+    invoice_total_amount = re.findall(pattern,extracted_text)
+
+    return invoice_total_amount
+
+
+
+
 def main():
 
     folder_path = accept_folder_name()
@@ -45,13 +76,25 @@ def main():
                 extracted_text = pdf_text_extractor(pdf_file)
                 # print(type(extracted_text)) o/p : string
 
-                # To get customer Names from the PDFs
+                # TO GET CUSTOMER NAMES FROM INVOICES
                 customer_names = customer_name_parser(extracted_text)
-                # print(customer_names)
+
                 for customer_name in customer_names:
                     # Unpacking the 'customer_name' tuple
                     first_name, last_name = customer_name
-                    print(f"{first_name} {last_name}")
+                    print(f"Customer Name: {first_name} {last_name}")
+
+                # TO GET DATE FROM THE INVOICES
+                date = invoice_date_parser(extracted_text)
+                print(f"Invoice Date: {date}")
+
+                # TO GET THE TOTAL AMOUNT FROM INVOICES
+                total_amount_list = invoice_total_parser(extracted_text)
+                for amount in total_amount_list:
+                    first,last = amount
+                    print(f"Invoice Total Amount: {first}.{last}")
+
+
 
         else:
             print("No PDFs found in this folder")
