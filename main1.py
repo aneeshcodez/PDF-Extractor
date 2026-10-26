@@ -48,10 +48,6 @@ def invoice_date_parser(extracted_text):
         return None
 
 
-
-
-
-
 def _valid_date_string(date):
     date_format = "%Y-%m-%d"
     try:
@@ -71,7 +67,6 @@ def invoice_total_parser(extracted_text):
         return []
 
 
-
 # separating logic from main()
 
 def get_customer_names_from_invoices(extracted_text):
@@ -81,21 +76,26 @@ def get_customer_names_from_invoices(extracted_text):
             # Unpacking the 'customer_name' tuple
             first_name, last_name = customer_name
             print(f"Customer Name: {first_name} {last_name}")
+            return True
     else:
-        return "Customer Name is not found from the Invoice"
+        print("Customer Name is not found from the Invoice")
+        return False
 
 
 def get_date_from_invoices(extracted_text):
     date_from_invoice = invoice_date_parser(extracted_text)
 
     if date_from_invoice is None:
-        return "No date found"
+        print("No date found")
+        return False
 
     if _valid_date_string(date_from_invoice):
         print(f"Invoice Date: {date_from_invoice}")
+        return True
 
     else:
-        return "Date is not a real calendar date"
+        print("Date is not a real calendar date")
+        return False
 
 def get_total_amount_from_invoices(extracted_text):
     total_amount_list = invoice_total_parser(extracted_text)
@@ -106,15 +106,13 @@ def get_total_amount_from_invoices(extracted_text):
             each_amount = float(f"{first}.{last}")
             if each_amount > 0 :
                 print(f"Invoice Total Amount: {each_amount}")
+                return True
             else:
                 print("Invalid Total Amount")
+                return False
     else:
-        return "Total Amount is not found from the Invoice"
-
-
-
-
-
+        print("Total Amount is not found from the Invoice")
+        return False
 
 
 def main():
@@ -150,6 +148,11 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+'''
+All 3 fields valid -> Put the invoice into 'Success_Invoices' List if not 'Errors_Invoices' List
+And From Respective list ,we can loop over the particular list (using for) to get Each Invoice and then we will extract data from it and then convert it to a data in CSV File 
+'''
 
 
 
