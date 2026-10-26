@@ -32,7 +32,10 @@ def customer_name_parser(extracted_text):
 
     matches = re.findall(pattern, extracted_text)
 
-    return matches
+    if matches:
+        return matches
+    else:
+        return "Customer Name is empty"
 
 def invoice_date_parser(extracted_text):
     pattern = r"\d{4}-\d{2}-\d{2}"
@@ -59,7 +62,15 @@ def invoice_total_parser(extracted_text):
 
     invoice_total_amount = re.findall(pattern,extracted_text)
 
-    return invoice_total_amount
+    if invoice_total_amount:
+        for amount in invoice_total_amount:
+            first,last = amount
+            if int(first) > 0 :
+                return invoice_total_amount
+            else:
+                return "Invalid Invoice Amount"
+    else:
+        return "Total is not present in the Invoice"
 
 
 
