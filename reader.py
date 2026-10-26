@@ -1,9 +1,8 @@
-import re
+first = 440
+last = 24
 
-text = "Name: Ram"
+each_amount = float(f"{first}.{last}")
+# each_amount = float(each_amount)
+print(each_amount)
 
-pattern = r"Price:\s*\d+"
-
-matches = re.findall(pattern, text)
-
-print(matches)
+print(type(each_amount))
