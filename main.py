@@ -4,7 +4,6 @@ import re
 from datetime import datetime
 
 
-
 # cli.py :
 def accept_folder_name():
 
@@ -129,8 +128,9 @@ def main():
                 extracted_text = pdf_text_extractor(pdf_file)
                 # print(type(extracted_text)) o/p : string
 
-                # TO GET CUSTOMER NAMES FROM INVOICES
+                # Determines whether each invoice succeeded or failed.
                 if get_customer_names_from_invoices(extracted_text) and get_date_from_invoices(extracted_text) and get_total_amount_from_invoices(extracted_text) :
+                    # append_to_successful_invoices_list(pdf_file) # because filename is required
 
                     successful_invoices.append(pdf_file)
                 else:
@@ -147,6 +147,14 @@ def main():
 
     else:
         print(f"Error: {folder_path} is not a valid folder.")
+
+
+    for successful_invoice in successful_invoices:
+        print(successful_invoice)
+
+    for error_invoice in error_invoices:
+        print(error_invoice)
+
 
 
 if __name__ == "__main__":
