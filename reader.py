@@ -1,8 +1,8 @@
-first = 440
-last = 24
+cus_name = ""
+vendor_name = "Ram"
 
-each_amount = float(f"{first}.{last}")
-# each_amount = float(each_amount)
-print(each_amount)
+if cus_name:
+    print("cusname")
 
-print(type(each_amount))
+if vendor_name:
+    print("ram")
