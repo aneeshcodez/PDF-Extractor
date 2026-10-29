@@ -126,6 +126,18 @@ def write_successful_invoices_csv():
         for successful_invoice in successful_invoices:
             writer.writerow(successful_invoice)
 
+def write_error_invoices_csv():
+    print("Writing to Error CSV File")
+    fieldnames = ["PDF NAME", "REASONS"]
+
+    with open("error_invoices.csv", "w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        writer.writeheader()
+        for error_invoice in error_invoices:
+            writer.writerow(error_invoice)
+
+
 
 
 
@@ -159,7 +171,26 @@ def main():
                     )
 
                 else:
-                    error_invoices.append(pdf_file)
+                    failure_reasons = []
+                    if customer_name is None:
+                        reason_1 = "customer name is not present in the Invoice"
+                        failure_reasons.append(reason_1)
+                    if invoice_date is None:
+                        reason_2 = "Invoice Date is not present or Invalid Date"
+                        failure_reasons.append(reason_2)
+                    if total_amount is None:
+                        reason_3 = "Total Amount is not present or Invalid Total Amount"
+                        failure_reasons.append(reason_3)
+
+                    all_failure_reasons = ";".join(failure_reasons)
+
+                    error_invoices.append(
+                        {
+                            "PDF NAME": pdf_file.name,
+                            "REASONS" : all_failure_reasons
+                        }
+                    )
+
 
 
 
@@ -173,6 +204,8 @@ def main():
         print(f"Error: {folder_path} is not a valid folder.")
 
     write_successful_invoices_csv()
+
+    write_error_invoices_csv()
 
     for successful_invoice in successful_invoices:
         print("printing from successful_invoices ")

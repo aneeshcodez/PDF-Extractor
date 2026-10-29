@@ -1,8 +1,9 @@
-cus_name = ""
-vendor_name = "Ram"
+hobbies_list = ["reading","playing"]
+joint_hobbies_list = ";".join(hobbies_list)
+dict_1 = {
+    "name" : "ram",
+    "hobbies" : joint_hobbies_list
+}
 
-if cus_name:
-    print("cusname")
-
-if vendor_name:
-    print("ram")
+print(joint_hobbies_list)
+print(dict_1)
