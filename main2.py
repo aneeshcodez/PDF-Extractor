@@ -1,3 +1,4 @@
+import csv
 from pathlib import Path
 import pdfplumber
 import re
@@ -76,7 +77,7 @@ def invoice_total_parser(extracted_text):
         return None
 
 
-# separating logic from main()
+# validator.py: (These are Validating functions)
 
 def get_customer_names_from_invoices(extracted_text):
 
@@ -111,6 +112,24 @@ def get_total_amount_from_invoices(extracted_text):
 successful_invoices = []
 error_invoices = []
 
+
+def write_successful_invoices_csv():
+    print("Writing to Successful CSV File")
+    fieldnames = ["PDF NAME", "CUSTOMER NAME", "INVOICE DATE", "TOTAL AMOUNT"]
+
+    with open("successful_invoices.csv", "w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+
+        writer.writeheader()
+        # 1.writer.writerows(list) writes the dictionaries as rows, matching their keys to the specified column names.
+        # 2.But If you have a list of dictionaries, you need to loop through the list to access each dictionary's keys.
+        for successful_invoice in successful_invoices:
+            writer.writerow(successful_invoice)
+
+
+
+
+
 def main():
 
     folder_path = accept_folder_name()
@@ -136,8 +155,9 @@ def main():
                             "INVOICE DATE" : invoice_date,
                             "TOTAL AMOUNT" : total_amount
                         }
-                        #(pdf_file.name,customer_name,invoice_date,total_amount)
+
                     )
+
                 else:
                     error_invoices.append(pdf_file)
 
@@ -152,6 +172,7 @@ def main():
     else:
         print(f"Error: {folder_path} is not a valid folder.")
 
+    write_successful_invoices_csv()
 
     for successful_invoice in successful_invoices:
         print("printing from successful_invoices ")
