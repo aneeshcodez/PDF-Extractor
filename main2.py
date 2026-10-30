@@ -138,7 +138,10 @@ def write_error_invoices_csv():
             writer.writerow(error_invoice)
 
 
-
+def final_summary():
+    print(f"Total number of files processed : {len(successful_invoices) + len(error_invoices)} ")
+    print(f"Total number of files succeeded : {len(successful_invoices)}")
+    print(f"Total number of files failed : {len(error_invoices)}")
 
 
 
@@ -150,7 +153,7 @@ def main():
         pdf_files = find_all_pdf_files(folder_path)
 
         if pdf_files:
-            for pdf_file in pdf_files[:2]:
+            for pdf_file in pdf_files:
                 extracted_text = pdf_text_extractor(pdf_file)
 
                 # Extract each field
@@ -191,28 +194,24 @@ def main():
                         }
                     )
 
+            for successful_invoice in successful_invoices:
+                print("printing from successful_invoices ")
+                print(successful_invoice)
 
+            for error_invoice in error_invoices:
+                print(error_invoice)
 
+            write_successful_invoices_csv()
 
+            write_error_invoices_csv()
 
-
-
+            final_summary()
         else:
             print("No PDFs found in this folder")
 
     else:
         print(f"Error: {folder_path} is not a valid folder.")
 
-    write_successful_invoices_csv()
-
-    write_error_invoices_csv()
-
-    for successful_invoice in successful_invoices:
-        print("printing from successful_invoices ")
-        print(successful_invoice)
-
-    for error_invoice in error_invoices:
-        print(error_invoice)
 
 
 
