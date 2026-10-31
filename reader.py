@@ -1,9 +1,8 @@
-hobbies_list = ["reading","playing"]
-joint_hobbies_list = ";".join(hobbies_list)
-dict_1 = {
-    "name" : "ram",
-    "hobbies" : joint_hobbies_list
-}
+import pdfplumber
 
-print(joint_hobbies_list)
-print(dict_1)
+def pdf_text_extractor(file_path):
+    with pdfplumber.open(file_path) as pdf:
+        page = pdf.pages[0]
+        text = page.extract_text()
+
+        return text

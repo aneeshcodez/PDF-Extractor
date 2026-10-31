@@ -201,11 +201,11 @@ def main():
             for error_invoice in error_invoices:
                 print(error_invoice)
 
-            write_successful_invoices_csv()
+            write_successful_invoices_csv(successful_invoices)
 
-            write_error_invoices_csv()
+            write_error_invoices_csv(error_invoices)
 
-            final_summary()
+            final_summary(successful_invoices,error_invoices)
         else:
             print("No PDFs found in this folder")
 
